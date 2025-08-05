@@ -102,10 +102,10 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
         final response = await _grpcClient.searchDemirbas(
           ipAddress: _searchType == SearchType.ip || _searchType == SearchType.both 
               ? _ipController.text 
-              : null,
+              : "",
           demirbasNum: _searchType == SearchType.pgm || _searchType == SearchType.both 
               ? _pgmController.text 
-              : null,
+              : "",
         );
 
         // Sonuçları işle

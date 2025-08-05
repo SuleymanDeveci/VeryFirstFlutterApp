@@ -18,10 +18,10 @@ class GrpcClient {
     if (!_isInitialized) {
       _channel = ClientChannel(
         '10.100.103.62', // gRPC server host
-        port: 8080, // gRPC server port
+        port: 5290, // gRPC server port
         options: const ChannelOptions(
           credentials: ChannelCredentials.insecure(), // Güvenli bağlantı için SSL/TLS kurulumu gerekli
-          connectionTimeout: Duration(seconds: 10),
+          connectionTimeout: Duration(seconds: 100),
         ),
       );
       _client = DemirbasServiceClient(_channel);
