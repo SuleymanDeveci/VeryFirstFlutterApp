@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'services/grpc_client.dart';
+import 'proto/generated/DemirbasService.pbgrpc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -64,25 +66,70 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
   final _pgmController = TextEditingController();
   final _ipController = TextEditingController();
   
+  // gRPC client
+  late final _grpcClient = GrpcClient();
+  bool _isLoading = false;
 
   SearchType _searchType = SearchType.pgm;
-  
-  // Örnek cihaz bilgileri (gerçek uygulamada API'den gelecek)
+
+  // Cihaz bilgileri
   Map<String, dynamic>? _cihazBilgileri;
 
-  void _sorgula() {
+  @override
+  void initState() {
+    super.initState();
+    _initializeGrpcClient();
+  }
+
+  Future<void> _initializeGrpcClient() async {
+    try {
+      await _grpcClient.initialize();
+    } catch (e) {
+      print('gRPC bağlantısı kurulamadı: $e');
+      // Kullanıcıya hata mesajı gösterilebilir
+    }
+  }
+
+  Future<void> _sorgula() async {
     if (_formKey.currentState!.validate()) {
-      // Gerçek uygulamada burada API çağrısı yapılacak
-      // SearchDemirbasRequest oluşturulacak
       setState(() {
-        _cihazBilgileri = {
-          'id': 12345,
-          'demirbas_num': _pgmController.text.isNotEmpty ? _pgmController.text : 'PGM-1001',
-          'ip_address': _ipController.text.isNotEmpty ? _ipController.text : '192.168.1.100',
-          'os': 'Windows 10 Pro',
-          'hardware_info': 'Dell XPS 13, Intel i7, 16GB RAM, 512GB SSD',
-        };
+        _isLoading = true;
+        _cihazBilgileri = null;
       });
+
+      try {
+        // SearchDemirbasRequest oluştur ve gönder
+        final response = await _grpcClient.searchDemirbas(
+          ipAddress: _searchType == SearchType.ip || _searchType == SearchType.both 
+              ? _ipController.text 
+              : null,
+          demirbasNum: _searchType == SearchType.pgm || _searchType == SearchType.both 
+              ? _pgmController.text 
+              : null,
+        );
+
+        // Sonuçları işle
+        setState(() {
+          _cihazBilgileri = {
+            'id': response.id,
+            'demirbas_num': response.demirbasNum,
+            'ip_address': response.ipAddress,
+            'os': response.os,
+            'hardware_info': response.hardwareInfo,
+          };
+          _isLoading = false;
+        });
+      } catch (e) {
+        print('Sorgu hatası: $e');
+        setState(() {
+          _isLoading = false;
+          // Hata durumunda bir mesaj gösterilebilir
+        });
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sorgu hatası: $e')),
+        );
+      }
     }
   }
 
@@ -206,9 +253,18 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton.icon(
-                    onPressed: _sorgula,
-                    icon: const Icon(Icons.search),
-                    label: const Text('SORGULA'),
+                    onPressed: _isLoading ? null : _sorgula,
+                    icon: _isLoading 
+                        ? SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.white,
+                            ),
+                          )
+                        : const Icon(Icons.search),
+                    label: Text(_isLoading ? 'SORGULANIYOR...' : 'SORGULA'),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.primary,
                       foregroundColor: Colors.white,
@@ -290,6 +346,7 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
   void dispose() {
     _pgmController.dispose();
     _ipController.dispose();
+    _grpcClient.dispose();
     super.dispose();
   }
 }
