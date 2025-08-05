@@ -17,7 +17,7 @@ class GrpcClient {
   Future<void> initialize() async {
     if (!_isInitialized) {
       _channel = ClientChannel(
-        '192.168.10.1', // gRPC server host
+        '10.100.103.62', // gRPC server host
         port: 8080, // gRPC server port
         options: const ChannelOptions(
           credentials: ChannelCredentials.insecure(), // Güvenli bağlantı için SSL/TLS kurulumu gerekli
