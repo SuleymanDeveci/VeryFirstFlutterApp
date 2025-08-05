@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+service DemirbasService{
+    rpc InsertDemirbas (InsertDemirbasRequest) returns (InsertDemirbasResponse);
+    rpc SearchDemirbas (SearchDemirbasRequest) returns (SearchDemirbasResponse);
+}
+
+message InsertDemirbasRequest {
+    string demirbas_num = 1;
+    string ip_address = 2;
+    string os = 3;
+    string hardware_info = 4;
+}
+
+message InsertDemirbasResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message SearchDemirbasRequest{
+    string ip_address = 1;
+    string demirbas_num = 2;
+}
+
+message SearchDemirbasResponse{
+    int32 id = 1;
+    string demirbas_num = 2;
+    string ip_address = 3;
+    string os = 4;
+    string hardware_info = 5;
+}
+
