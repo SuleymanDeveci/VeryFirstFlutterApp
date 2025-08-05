@@ -60,9 +60,9 @@ final $typed_data.Uint8List searchDemirbasRequestDescriptor = $convert.base64Dec
     'ChVTZWFyY2hEZW1pcmJhc1JlcXVlc3QSHQoKaXBfYWRkcmVzcxgBIAEoCVIJaXBBZGRyZXNzEi'
     'EKDGRlbWlyYmFzX251bRgCIAEoCVILZGVtaXJiYXNOdW0=');
 
-@$core.Deprecated('Use searchDemirbasResponseDescriptor instead')
-const SearchDemirbasResponse$json = {
-  '1': 'SearchDemirbasResponse',
+@$core.Deprecated('Use demirbasDescriptor instead')
+const Demirbas$json = {
+  '1': 'Demirbas',
   '2': [
     {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
     {'1': 'demirbas_num', '3': 2, '4': 1, '5': 9, '10': 'demirbasNum'},
@@ -72,8 +72,29 @@ const SearchDemirbasResponse$json = {
   ],
 };
 
+/// Descriptor for `Demirbas`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List demirbasDescriptor = $convert.base64Decode(
+    'CghEZW1pcmJhcxIOCgJpZBgBIAEoBVICaWQSIQoMZGVtaXJiYXNfbnVtGAIgASgJUgtkZW1pcm'
+    'Jhc051bRIdCgppcF9hZGRyZXNzGAMgASgJUglpcEFkZHJlc3MSDgoCb3MYBCABKAlSAm9zEiMK'
+    'DWhhcmR3YXJlX2luZm8YBSABKAlSDGhhcmR3YXJlSW5mbw==');
+
+@$core.Deprecated('Use searchDemirbasResponseDescriptor instead')
+const SearchDemirbasResponse$json = {
+  '1': 'SearchDemirbasResponse',
+  '2': [
+    {
+      '1': 'demirbas',
+      '3': 1,
+      '4': 3,
+      '5': 11,
+      '6': '.Demirbas',
+      '10': 'demirbas'
+    },
+  ],
+};
+
 /// Descriptor for `SearchDemirbasResponse`. Decode as a `google.protobuf.DescriptorProto`.
-final $typed_data.Uint8List searchDemirbasResponseDescriptor = $convert.base64Decode(
-    'ChZTZWFyY2hEZW1pcmJhc1Jlc3BvbnNlEg4KAmlkGAEgASgFUgJpZBIhCgxkZW1pcmJhc19udW'
-    '0YAiABKAlSC2RlbWlyYmFzTnVtEh0KCmlwX2FkZHJlc3MYAyABKAlSCWlwQWRkcmVzcxIOCgJv'
-    'cxgEIAEoCVICb3MSIwoNaGFyZHdhcmVfaW5mbxgFIAEoCVIMaGFyZHdhcmVJbmZv');
+final $typed_data.Uint8List searchDemirbasResponseDescriptor =
+    $convert.base64Decode(
+        'ChZTZWFyY2hEZW1pcmJhc1Jlc3BvbnNlEiUKCGRlbWlyYmFzGAEgAygLMgkuRGVtaXJiYXNSCG'
+        'RlbWlyYmFz');

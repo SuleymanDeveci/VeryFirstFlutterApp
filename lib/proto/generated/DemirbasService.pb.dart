@@ -247,8 +247,8 @@ class SearchDemirbasRequest extends $pb.GeneratedMessage {
   void clearDemirbasNum() => $_clearField(2);
 }
 
-class SearchDemirbasResponse extends $pb.GeneratedMessage {
-  factory SearchDemirbasResponse({
+class Demirbas extends $pb.GeneratedMessage {
+  factory Demirbas({
     $core.int? id,
     $core.String? demirbasNum,
     $core.String? ipAddress,
@@ -264,17 +264,17 @@ class SearchDemirbasResponse extends $pb.GeneratedMessage {
     return result;
   }
 
-  SearchDemirbasResponse._();
+  Demirbas._();
 
-  factory SearchDemirbasResponse.fromBuffer($core.List<$core.int> data,
+  factory Demirbas.fromBuffer($core.List<$core.int> data,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromBuffer(data, registry);
-  factory SearchDemirbasResponse.fromJson($core.String json,
+  factory Demirbas.fromJson($core.String json,
           [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
       create()..mergeFromJson(json, registry);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
-      _omitMessageNames ? '' : 'SearchDemirbasResponse',
+      _omitMessageNames ? '' : 'Demirbas',
       createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'demirbasNum')
@@ -284,27 +284,23 @@ class SearchDemirbasResponse extends $pb.GeneratedMessage {
     ..hasRequiredFields = false;
 
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SearchDemirbasResponse clone() =>
-      SearchDemirbasResponse()..mergeFromMessage(this);
+  Demirbas clone() => Demirbas()..mergeFromMessage(this);
   @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
-  SearchDemirbasResponse copyWith(
-          void Function(SearchDemirbasResponse) updates) =>
-      super.copyWith((message) => updates(message as SearchDemirbasResponse))
-          as SearchDemirbasResponse;
+  Demirbas copyWith(void Function(Demirbas) updates) =>
+      super.copyWith((message) => updates(message as Demirbas)) as Demirbas;
 
   @$core.override
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static SearchDemirbasResponse create() => SearchDemirbasResponse._();
+  static Demirbas create() => Demirbas._();
   @$core.override
-  SearchDemirbasResponse createEmptyInstance() => create();
-  static $pb.PbList<SearchDemirbasResponse> createRepeated() =>
-      $pb.PbList<SearchDemirbasResponse>();
+  Demirbas createEmptyInstance() => create();
+  static $pb.PbList<Demirbas> createRepeated() => $pb.PbList<Demirbas>();
   @$core.pragma('dart2js:noInline')
-  static SearchDemirbasResponse getDefault() => _defaultInstance ??=
-      $pb.GeneratedMessage.$_defaultFor<SearchDemirbasResponse>(create);
-  static SearchDemirbasResponse? _defaultInstance;
+  static Demirbas getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Demirbas>(create);
+  static Demirbas? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.int get id => $_getIZ(0);
@@ -350,6 +346,58 @@ class SearchDemirbasResponse extends $pb.GeneratedMessage {
   $core.bool hasHardwareInfo() => $_has(4);
   @$pb.TagNumber(5)
   void clearHardwareInfo() => $_clearField(5);
+}
+
+class SearchDemirbasResponse extends $pb.GeneratedMessage {
+  factory SearchDemirbasResponse({
+    $core.Iterable<Demirbas>? demirbas,
+  }) {
+    final result = create();
+    if (demirbas != null) result.demirbas.addAll(demirbas);
+    return result;
+  }
+
+  SearchDemirbasResponse._();
+
+  factory SearchDemirbasResponse.fromBuffer($core.List<$core.int> data,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(data, registry);
+  factory SearchDemirbasResponse.fromJson($core.String json,
+          [$pb.ExtensionRegistry registry = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(json, registry);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      _omitMessageNames ? '' : 'SearchDemirbasResponse',
+      createEmptyInstance: create)
+    ..pc<Demirbas>(1, _omitFieldNames ? '' : 'demirbas', $pb.PbFieldType.PM,
+        subBuilder: Demirbas.create)
+    ..hasRequiredFields = false;
+
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SearchDemirbasResponse clone() =>
+      SearchDemirbasResponse()..mergeFromMessage(this);
+  @$core.Deprecated('See https://github.com/google/protobuf.dart/issues/998.')
+  SearchDemirbasResponse copyWith(
+          void Function(SearchDemirbasResponse) updates) =>
+      super.copyWith((message) => updates(message as SearchDemirbasResponse))
+          as SearchDemirbasResponse;
+
+  @$core.override
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static SearchDemirbasResponse create() => SearchDemirbasResponse._();
+  @$core.override
+  SearchDemirbasResponse createEmptyInstance() => create();
+  static $pb.PbList<SearchDemirbasResponse> createRepeated() =>
+      $pb.PbList<SearchDemirbasResponse>();
+  @$core.pragma('dart2js:noInline')
+  static SearchDemirbasResponse getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<SearchDemirbasResponse>(create);
+  static SearchDemirbasResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $pb.PbList<Demirbas> get demirbas => $_getList(0);
 }
 
 const $core.bool _omitFieldNames =

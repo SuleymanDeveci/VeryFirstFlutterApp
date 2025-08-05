@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'services/grpc_client.dart';
-import 'proto/generated/DemirbasService.pbgrpc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -74,6 +73,7 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
 
   // Cihaz bilgileri
   Map<String, dynamic>? _cihazBilgileri;
+  List<Map<String, dynamic>> _cihazListesi = [];
 
   @override
   void initState() {
@@ -110,13 +110,28 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
 
         // Sonuçları işle
         setState(() {
-          _cihazBilgileri = {
-            'id': response.id,
-            'demirbas_num': response.demirbasNum,
-            'ip_address': response.ipAddress,
-            'os': response.os,
-            'hardware_info': response.hardwareInfo,
-          };
+          _cihazListesi.clear();
+
+          if (response.demirbas.isNotEmpty) {
+            // Birden fazla cihaz olabilir
+            for (var demirbas in response.demirbas) {
+              _cihazListesi.add({
+                'id': demirbas.id,
+                'demirbas_num': demirbas.demirbasNum,
+                'ip_address': demirbas.ipAddress,
+                'os': demirbas.os,
+                'hardware_info': demirbas.hardwareInfo,
+              });
+            }
+
+            // İlk cihazı seçili olarak göster
+            _cihazBilgileri = _cihazListesi.first;
+          } else {
+            _cihazBilgileri = null;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Eşleşen cihaz bulunamadı')),
+            );
+          }
           _isLoading = false;
         });
       } catch (e) {
@@ -272,6 +287,97 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
                     ),
                   ),
                   const SizedBox(height: 24),
+                  // Birden fazla cihaz varsa liste görünümü göster
+                  if (_cihazListesi.length > 1) ...[                    
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Bulunan Cihazlar (${_cihazListesi.length})',
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            SizedBox(
+                              height: 120,
+                              child: ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: _cihazListesi.length,
+                                itemBuilder: (context, index) {
+                                  final cihaz = _cihazListesi[index];
+                                  final isSelected = _cihazBilgileri == cihaz;
+
+                                  return InkWell(
+                                    onTap: () {
+                                      setState(() {
+                                        _cihazBilgileri = cihaz;
+                                      });
+                                    },
+                                    child: Container(
+                                      width: 200,
+                                      margin: const EdgeInsets.only(right: 12),
+                                      padding: const EdgeInsets.all(12),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                          color: isSelected 
+                                            ? Theme.of(context).colorScheme.primary 
+                                            : Colors.grey.shade300,
+                                          width: isSelected ? 2 : 1,
+                                        ),
+                                        color: isSelected 
+                                          ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.1)
+                                          : Colors.white,
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            cihaz['demirbas_num'],
+                                            style: TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              color: isSelected 
+                                                ? Theme.of(context).colorScheme.primary 
+                                                : Colors.black,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            cihaz['ip_address'],
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey.shade700,
+                                            ),
+                                          ),
+                                          const SizedBox(height: 4),
+                                          Text(
+                                            cihaz['os'],
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: Colors.grey.shade600,
+                                            ),
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                   if (_cihazBilgileri != null) ...[
                     Card(
                       child: Padding(

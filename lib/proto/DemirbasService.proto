@@ -22,11 +22,15 @@ message SearchDemirbasRequest{
     string demirbas_num = 2;
 }
 
-message SearchDemirbasResponse{
+message Demirbas{
     int32 id = 1;
     string demirbas_num = 2;
     string ip_address = 3;
     string os = 4;
     string hardware_info = 5;
+}
+
+message SearchDemirbasResponse{
+    repeated Demirbas demirbas = 1;
 }
 
