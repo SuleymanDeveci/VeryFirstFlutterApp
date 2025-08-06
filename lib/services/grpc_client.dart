@@ -1,7 +1,7 @@
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:grpc/grpc.dart';
-import 'package:grpc/grpc_web.dart';
+import 'channels/channel_stub.dart'
+if (dart.library.io) 'channels/channel_io.dart'
+if (dart.library.html) 'channels/channel_web.dart';
+
 import '../proto/generated/DemirbasService.pbgrpc.dart';
 
 class GrpcClient {
@@ -10,35 +10,12 @@ class GrpcClient {
   dynamic _channel;
   bool _isInitialized = false;
 
-  // Singleton pattern
-  factory GrpcClient() {
-    return _instance;
-  }
-
+  factory GrpcClient() => _instance;
   GrpcClient._internal();
-
-  dynamic _createChannel() {
-    if (kIsWeb) {
-      return GrpcWebClientChannel.xhr(
-        Uri.parse("http://10.100.103.62:8080"), // Web için proxy veya gRPC-Web endpoint
-      );
-    } else if (Platform.isWindows || Platform.isAndroid || Platform.isIOS) {
-      return ClientChannel(
-        '10.100.103.62',
-        port: 5290,
-        options: const ChannelOptions(
-          credentials: ChannelCredentials.insecure(),
-          connectionTimeout: Duration(seconds: 100),
-        ),
-      );
-    } else {
-      throw UnsupportedError('Desteklenmeyen platform');
-    }
-  }
 
   Future<void> initialize() async {
     if (!_isInitialized) {
-      _channel = _createChannel();
+      _channel = createChannel();
       _client = DemirbasServiceClient(_channel);
       _isInitialized = true;
     }
@@ -59,8 +36,7 @@ class GrpcClient {
       ..hardwareInfo = hardwareInfo;
 
     try {
-      final response = await _client.insertDemirbas(request);
-      return response;
+      return await _client.insertDemirbas(request);
     } catch (e) {
       print('Hata oluştu: $e');
       return InsertDemirbasResponse()
@@ -76,16 +52,11 @@ class GrpcClient {
     if (!_isInitialized) await initialize();
 
     final request = SearchDemirbasRequest();
-    if (ipAddress != null && ipAddress.isNotEmpty) {
-      request.ipAddress = ipAddress;
-    }
-    if (demirbasNum != null && demirbasNum.isNotEmpty) {
-      request.demirbasNum = demirbasNum;
-    }
+    if (ipAddress?.isNotEmpty ?? false) request.ipAddress = ipAddress!;
+    if (demirbasNum?.isNotEmpty ?? false) request.demirbasNum = demirbasNum!;
 
     try {
-      final response = await _client.searchDemirbas(request);
-      return response;
+      return await _client.searchDemirbas(request);
     } catch (e) {
       print('Arama hatası: $e');
       throw Exception('gRPC hatası: $e');
@@ -94,9 +65,7 @@ class GrpcClient {
 
   void dispose() {
     if (_isInitialized) {
-      if (!kIsWeb) {
-        (_channel as ClientChannel).shutdown();
-      }
+      disposeChannel();
       _isInitialized = false;
     }
   }
