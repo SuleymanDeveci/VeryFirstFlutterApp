@@ -580,7 +580,7 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     height: 56,
-                    width: _isLoading ? 220 : double.infinity,
+                    width: _isLoading ? 220 : MediaQuery.of(context).size.width - 32,
                     curve: Curves.easeInOut,
                     child: ElevatedButton.icon(
                       onPressed: _isLoading ? null : _sorgula,
@@ -1060,8 +1060,8 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
           colors: [
-            Theme.of(context).colorScheme.primary.withOpacity(0.8),
-            Theme.of(context).colorScheme.primary.withOpacity(0.6),
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.8),
+            Theme.of(context).colorScheme.primary.withValues(alpha: 0.6),
           ],
         ),
       ),
@@ -1078,7 +1078,7 @@ class _DemirbasSorgulamaPageState extends State<DemirbasSorgulamaPage> {
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary.withOpacity(0.1),
+                    color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   padding: const EdgeInsets.all(24),
