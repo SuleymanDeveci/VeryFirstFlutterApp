@@ -1,5 +1,10 @@
 syntax = "proto3";
 
+option java_package = "org.pgmbim.grpc";
+option java_multiple_files = true;
+
+package org.pgmbim.grpc;
+
 service DemirbasService{
     rpc InsertDemirbas (InsertDemirbasRequest) returns (InsertDemirbasResponse);
     rpc SearchDemirbas (SearchDemirbasRequest) returns (SearchDemirbasResponse);
@@ -33,4 +38,3 @@ message Demirbas{
 message SearchDemirbasResponse{
     repeated Demirbas demirbas = 1;
 }
-

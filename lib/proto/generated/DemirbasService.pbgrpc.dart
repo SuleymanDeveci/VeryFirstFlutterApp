@@ -20,7 +20,7 @@ import 'DemirbasService.pb.dart' as $0;
 
 export 'DemirbasService.pb.dart';
 
-@$pb.GrpcServiceName('DemirbasService')
+@$pb.GrpcServiceName('org.pgmbim.grpc.DemirbasService')
 class DemirbasServiceClient extends $grpc.Client {
   /// The hostname for this service.
   static const $core.String defaultHost = '';
@@ -50,19 +50,19 @@ class DemirbasServiceClient extends $grpc.Client {
 
   static final _$insertDemirbas =
       $grpc.ClientMethod<$0.InsertDemirbasRequest, $0.InsertDemirbasResponse>(
-          '/DemirbasService/InsertDemirbas',
+          '/org.pgmbim.grpc.DemirbasService/InsertDemirbas',
           ($0.InsertDemirbasRequest value) => value.writeToBuffer(),
           $0.InsertDemirbasResponse.fromBuffer);
   static final _$searchDemirbas =
       $grpc.ClientMethod<$0.SearchDemirbasRequest, $0.SearchDemirbasResponse>(
-          '/DemirbasService/SearchDemirbas',
+          '/org.pgmbim.grpc.DemirbasService/SearchDemirbas',
           ($0.SearchDemirbasRequest value) => value.writeToBuffer(),
           $0.SearchDemirbasResponse.fromBuffer);
 }
 
-@$pb.GrpcServiceName('DemirbasService')
+@$pb.GrpcServiceName('org.pgmbim.grpc.DemirbasService')
 abstract class DemirbasServiceBase extends $grpc.Service {
-  $core.String get $name => 'DemirbasService';
+  $core.String get $name => 'org.pgmbim.grpc.DemirbasService';
 
   DemirbasServiceBase() {
     $addMethod($grpc.ServiceMethod<$0.InsertDemirbasRequest,

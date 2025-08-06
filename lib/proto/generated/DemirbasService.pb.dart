@@ -42,6 +42,8 @@ class InsertDemirbasRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'InsertDemirbasRequest',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'org.pgmbim.grpc'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'demirbasNum')
     ..aOS(2, _omitFieldNames ? '' : 'ipAddress')
@@ -131,6 +133,8 @@ class InsertDemirbasResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'InsertDemirbasResponse',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'org.pgmbim.grpc'),
       createEmptyInstance: create)
     ..aOB(1, _omitFieldNames ? '' : 'success')
     ..aOS(2, _omitFieldNames ? '' : 'message')
@@ -200,6 +204,8 @@ class SearchDemirbasRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SearchDemirbasRequest',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'org.pgmbim.grpc'),
       createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'ipAddress')
     ..aOS(2, _omitFieldNames ? '' : 'demirbasNum')
@@ -275,6 +281,8 @@ class Demirbas extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'Demirbas',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'org.pgmbim.grpc'),
       createEmptyInstance: create)
     ..a<$core.int>(1, _omitFieldNames ? '' : 'id', $pb.PbFieldType.O3)
     ..aOS(2, _omitFieldNames ? '' : 'demirbasNum')
@@ -368,6 +376,8 @@ class SearchDemirbasResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(
       _omitMessageNames ? '' : 'SearchDemirbasResponse',
+      package:
+          const $pb.PackageName(_omitMessageNames ? '' : 'org.pgmbim.grpc'),
       createEmptyInstance: create)
     ..pc<Demirbas>(1, _omitFieldNames ? '' : 'demirbas', $pb.PbFieldType.PM,
         subBuilder: Demirbas.create)

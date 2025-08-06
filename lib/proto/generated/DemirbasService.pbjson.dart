@@ -87,7 +87,7 @@ const SearchDemirbasResponse$json = {
       '3': 1,
       '4': 3,
       '5': 11,
-      '6': '.Demirbas',
+      '6': '.org.pgmbim.grpc.Demirbas',
       '10': 'demirbas'
     },
   ],
@@ -96,5 +96,5 @@ const SearchDemirbasResponse$json = {
 /// Descriptor for `SearchDemirbasResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List searchDemirbasResponseDescriptor =
     $convert.base64Decode(
-        'ChZTZWFyY2hEZW1pcmJhc1Jlc3BvbnNlEiUKCGRlbWlyYmFzGAEgAygLMgkuRGVtaXJiYXNSCG'
-        'RlbWlyYmFz');
+        'ChZTZWFyY2hEZW1pcmJhc1Jlc3BvbnNlEjUKCGRlbWlyYmFzGAEgAygLMhkub3JnLnBnbWJpbS'
+        '5ncnBjLkRlbWlyYmFzUghkZW1pcmJhcw==');
