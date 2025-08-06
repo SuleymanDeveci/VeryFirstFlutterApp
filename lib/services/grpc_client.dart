@@ -1,10 +1,13 @@
+import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:grpc/grpc.dart';
+import 'package:grpc/grpc_web.dart';
 import '../proto/generated/DemirbasService.pbgrpc.dart';
 
 class GrpcClient {
   static final GrpcClient _instance = GrpcClient._internal();
   late DemirbasServiceClient _client;
-  late ClientChannel _channel;
+  dynamic _channel;
   bool _isInitialized = false;
 
   // Singleton pattern
@@ -14,16 +17,28 @@ class GrpcClient {
 
   GrpcClient._internal();
 
-  Future<void> initialize() async {
-    if (!_isInitialized) {
-      _channel = ClientChannel(
-        '10.100.103.62', // gRPC server host
-        port: 5290, // gRPC server port
+  dynamic _createChannel() {
+    if (kIsWeb) {
+      return GrpcWebClientChannel.xhr(
+        Uri.parse("http://10.100.103.62:8080"), // Web için proxy veya gRPC-Web endpoint
+      );
+    } else if (Platform.isWindows || Platform.isAndroid || Platform.isIOS) {
+      return ClientChannel(
+        '10.100.103.62',
+        port: 5290,
         options: const ChannelOptions(
-          credentials: ChannelCredentials.insecure(), // Güvenli bağlantı için SSL/TLS kurulumu gerekli
+          credentials: ChannelCredentials.insecure(),
           connectionTimeout: Duration(seconds: 100),
         ),
       );
+    } else {
+      throw UnsupportedError('Desteklenmeyen platform');
+    }
+  }
+
+  Future<void> initialize() async {
+    if (!_isInitialized) {
+      _channel = _createChannel();
       _client = DemirbasServiceClient(_channel);
       _isInitialized = true;
     }
@@ -79,7 +94,9 @@ class GrpcClient {
 
   void dispose() {
     if (_isInitialized) {
-      _channel.shutdown();
+      if (!kIsWeb) {
+        (_channel as ClientChannel).shutdown();
+      }
       _isInitialized = false;
     }
   }
